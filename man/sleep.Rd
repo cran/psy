@@ -32,4 +32,8 @@ http://lib.stat.cmu.edu/datasets/sleep
 Mammals: Ecological and Constitutional Correlates, by Allison, T. and Cicchetti, D. (1976)
 Science, November 12, vol. 194, pp.732-734
 }
+\examples{
+data(sleep)
+str(sleep)
+}
 \keyword{datasets}

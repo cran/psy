@@ -1,4 +1,3 @@
-
 "scree.plot" <-
 function(namefile, title="Scree Plot", type="R", use="complete.obs", simu="F")
 {
@@ -34,4 +33,3 @@ for(i in 1:simu)
 	}
 }
 }
-

@@ -32,3 +32,4 @@ sphpca(sleep[,c(2:5,7:11)])
 ##spherical representation of ecological and constitutional correlates in mammals
 }
 \keyword{multivariate}
+

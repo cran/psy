@@ -12,7 +12,6 @@ icc(data)
 }
 \details{
 Missing data are omitted in a listwise way. The "agreement" ICC is the ratio of the subject variance by the sum of the subject variance, the rater variance and the residual; it is generally prefered. The "consistency" version is the ratio of the subject variance by the sum of the subject variance and the residual; it may be of interest when estimating the reliability of pre/post variations in measurements.
-
 }
 \value{
 A list with :
@@ -30,5 +29,11 @@ A list with :
 \examples{
 data(expsy)
 icc(expsy[,c(12,14,16)])
+
+library(boot)
+icc.boot <- function(data,x) {icc(data[x,])[[7]]}
+res <- boot(expsy[,c(12,14,16)],icc.boot,1000)
+quantile(res$t,c(0.025,0.975))  # two-sided bootstrapped confidence interval of icc (agreement)
 }
 \keyword{univar}
+

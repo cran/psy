@@ -8,7 +8,7 @@ Computes the Cronbach's reliability coefficient alpha. This coefficient may be a
 cronbach(v1)
 }
 \arguments{
-  \item{v1}{ n*p matrix or dataframe, n subjects and p items}
+  \item{v1}{n*p matrix or dataframe, n subjects and p items}
 }
 \details{
 Missing value are omitted in a "listwise" way (all items are removed even if only one of them is missing).
@@ -23,7 +23,13 @@ A list with :
 \author{Bruno Falissard}
 \examples{
 data(expsy)
-cronbach(expsy[,1:10]) ## not good because item 2 is reversed (1 is high and 4 is low)
-cronbach(cbind(expsy[,c(1,3:10)],-1*expsy[,2])) ## better
+cronbach(expsy[,1:10])  ## not good because item 2 is reversed (1 is high and 4 is low)
+cronbach(cbind(expsy[,c(1,3:10)],-1*expsy[,2]))  ## better
+
+datafile <- cbind(expsy[,c(1,3:10)],-1*expsy[,2])
+library(boot)
+cronbach.boot <- function(data,x) {cronbach(data[x,])[[3]]}
+res <- boot(datafile,cronbach.boot,1000)
+quantile(res$t,c(0.025,0.975))  ## two-sided bootstrapped confidence interval of Cronbach's alpha
 }
 \keyword{univar}

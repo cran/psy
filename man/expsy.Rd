@@ -38,3 +38,4 @@ data(expsy)
 expsy[1:4,]
 }
 \keyword{datasets}
+

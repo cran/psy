@@ -36,3 +36,4 @@ mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sle
 ## Rabbit and Cow have a high level of danger
 }
 \keyword{multivariate}
+

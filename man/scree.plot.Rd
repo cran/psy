@@ -29,3 +29,4 @@ data(expsy)
 scree.plot(expsy[,1:10],simu=20,use="P") #no obvious structure with such a small sample
 }
 \keyword{multivariate}
+

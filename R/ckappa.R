@@ -1,4 +1,3 @@
-
 "ckappa" <-
 function(r)
 {
@@ -38,4 +37,3 @@ kappa2 <- (agreeP - chanceP)/(1 - chanceP)
 result <- list("table"=tab,"kappa"=kappa2)
 result
 }
-

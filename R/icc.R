@@ -1,4 +1,3 @@
-
 "icc" <-
 function(data)
 {
@@ -22,4 +21,3 @@ icc.c <- v.s/(v.s+res)
 result <- list("nb.subjects"=n,"nb.raters"=p,"subject.variance"=v.s,"rater.variance"=v.r,"residual"=res,"icc.consistency"=icc.c,"icc.agreement"=icc.a)
 result
 }
-

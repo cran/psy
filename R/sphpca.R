@@ -1,4 +1,3 @@
-
 "sphpca" <-
 function(datafile, h=0, v=0, f=0, cx=0.75, nbsphere=2, back=FALSE)
 {
@@ -1440,4 +1439,3 @@ for(i in 1:p) {if (load[i,1]<=0) symbols(x=load[i,2], y=load[i,3], circles=0.015
 for(i in 1:p) {if (load[i,1]<=0) text(x=load[i,2],y=load[i,3]-0.05,labels=names[i],cex=cx)}
 }
 }
-

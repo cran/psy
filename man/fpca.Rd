@@ -5,7 +5,7 @@
 Graphical representation similar to a principal components analysis but adapted to data structured with dependent/independent variables
 }
 \usage{
-fpca(datafile, y, x, cx=0.75, namesvar=attributes(namefile)$names, pvalues="No", partial="Yes", input="Data", contraction="No", sample.size=1)
+fpca(datafile, y, x, cx=0.75, namesvar=attributes(datafile)$names, pvalues="No", partial="Yes", input="data", contraction="No", sample.size=1)
 }
 \arguments{
   \item{datafile}{name of datafile}
@@ -15,7 +15,7 @@ fpca(datafile, y, x, cx=0.75, namesvar=attributes(namefile)$names, pvalues="No",
   \item{namesvar}{label of variables (names of columns by default)}
   \item{pvalues}{vector of prespecified pvalues (pvalues="No" by default) (see below)}
   \item{partial}{partial="Yes" by default, corresponds to the original method (see below)}
-  \item{input}{input="Cor" for a correlation matrix (input="Data" by default)}
+  \item{input}{input="Cor" for a correlation matrix (input="data" by default)}
   \item{contraction}{change the aspect of the diagram, contraction="Yes" is convenient for large data set (contraction="No" by default)}
   \item{sample.size}{to be specified if input="Cor"}
 }
@@ -26,7 +26,7 @@ The focus on the dependent variable leads formally to a partialisation of the co
 It may be interesting to represent graphically the strength of association between the dependent variable and the other variables using p values coming from a model. A vector of pvalue may be specified in this case.
 }
 \value{
-A plot (q plots in fact).
+A plot.
 }
 \references{Falissard B, Focused Principal Components Analysis: looking at a correlation matrix with a particular interest in a given variable. Journal of Computational and Graphical Statistics (1999), 8(4): 906-912.}
 \author{Bruno Falissard, Bill Morphey}
@@ -39,6 +39,7 @@ fpca(sleep,5,c(2:4,7:11))
 ## to the dependent variable with p<0.05.
 ## Green variables are positively correlated to the dependent variable,
 ## yellow variables are negatively correlated.
-## There are three clear clusters of dependent variables. 
+## There are three clear clusters of independent variables. 
 }
 \keyword{multivariate}
+

@@ -1,4 +1,3 @@
-
 "fpca" <-
 function(datafile, y, x, cx=0.75, namesvar=attributes(datafile)$names, pvalues="No", partial="Yes", input="data", contraction="No", sample.size=1) 
 
@@ -226,7 +225,7 @@ names[p+1] <- "."
 names[p+2] <- "."
 
 #****************************************************************************
-#******************************** q plots ***********************************
+#******************************** q plots here q=1***************************
 #****************************************************************************
 
 j <- 1
@@ -324,7 +323,7 @@ text(x=-0.18,y=-.12,labels=namey, cex=cx+0.25)#focus variable
 text(x=loadx[,j],y=loady[,j],labels=names,cex=cx)#other variables
 
 #****************** name of factors ***********
-annotate <- paste("Factors : 1,", j, sep="")
+annotate <- paste("Factors : 1,", j+1, sep="")
 text(x=1,y=1.3,labels=annotate,cex=cx)
 
 #****************************************************************************
@@ -335,4 +334,3 @@ text(x=1,y=1.3,labels=annotate,cex=cx)
 
 #******************* end **********************
 }
-

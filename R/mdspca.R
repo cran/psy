@@ -1,6 +1,5 @@
-
 "mdspca" <-
-function(datafile, supvar="no", supsubj="no", namesupvar=colnames(supvar,do.NULL=FALSEALSE), namesupsubj=colnames(supsubj,do.NULL=FALSE), dimx=1, dimy=2, cx=0.75) 
+function(datafile, supvar="no", supsubj="no", namesupvar=colnames(supvar,do.NULL=FALSE), namesupsubj=colnames(supsubj,do.NULL=FALSE), dimx=1, dimy=2, cx=0.75) 
 
 {
 
@@ -234,4 +233,3 @@ par(mfrow=c(1,1))
 #****************************************************************************
 
 }
-
