@@ -1,0 +1,13 @@
+cronbach                Cronbach's coefficient alpha
+expsy                   Data set related to psychometry
+fpca                    Focused Principal Components Analysis
+icc                     Intraclass correlation coefficient (ICC)
+ckappa                  Cohen's Kappa for 2 raters
+lkappa                  Light's kappa for n raters
+mdspca                  Graphical representation of a correlation
+                        matrix using a Principal Component Analysis
+scree.plot              Screeplot of eigenvalues, simulated data are
+                        available
+sleep                   Ecological and Constitutional Data in Mammals
+sphpca                  Spherical Representation of a Correlation
+                        Matrix
