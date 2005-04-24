@@ -26,7 +26,7 @@ A diagram (two diagrams if supplementary subjects are used)
 data(sleep)
 
 mdspca(sleep[,c(2:5,7:11)])
-## three consistent groups of variables, paradoxical sleep (in other words: dream)
+## three consistent groups of variables, paradoxical sleep (dream)
 ## is negatively correlated with danger
 
 mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sleep[,1],namesupsubj="",cx=0.5)
