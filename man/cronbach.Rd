@@ -31,5 +31,6 @@ library(boot)
 cronbach.boot <- function(data,x) {cronbach(data[x,])[[3]]}
 res <- boot(datafile,cronbach.boot,1000)
 quantile(res$t,c(0.025,0.975))  ## two-sided bootstrapped confidence interval of Cronbach's alpha
+boot.ci(res,type="bca")         ## adjusted bootstrap percentile (BCa) confidence interval (better)
 }
 \keyword{univar}

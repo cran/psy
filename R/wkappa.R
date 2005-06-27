@@ -10,13 +10,27 @@ function(r,weights="squared")
     p <- length(lev)
     if (weights != "squared") weights <- "absolute"
     tab <- matrix(nrow = p, ncol = p)
-    weight <- matrix(nrow = p, ncol = p)	
+    weight <- matrix(nrow = p, ncol = p)
+    rvect <- as.matrix(r)
+    dim(rvect) <- c(dim(r)[1]*dim(r)[2],1)
+    if (is.numeric(rvect))
+    {
+	tabi <- table(r[,1],r[,2])
+	tabname <- as.character(sort(as.numeric(levels(as.factor(c(dimnames(tabi)[[1]],dimnames(tabi)[[2]]))))))
+        dimnames(tab) <- list(tabname,tabname)
+	dim1 <- tabname
+	dim2 <- tabname
+        dimi1 <- as.character(dimnames(tabi)[[1]])
+        dimi2 <- as.character(dimnames(tabi)[[2]])
+    }else
+    {
     dimnames(tab) <- list(levels(as.factor(c(n1, n2))), levels(as.factor(c(n1, n2))))
     dim1 <- dimnames(tab)[[1]]
     dim2 <- dimnames(tab)[[2]]
     tabi <- table(n1, n2)
     dimi1 <- dimnames(tabi)[[1]]
     dimi2 <- dimnames(tabi)[[2]]
+    }
     for (i in 1:p) for (j in 1:p)
     {
         if ((sum(dim1[i] == dimi1) == 1) & (sum(dim2[j] == dimi2) == 1)) tab[i, j] <- tabi[dim1[i], dim2[j]]
@@ -35,3 +49,4 @@ function(r,weights="squared")
     result <- list(table = tab, weights=weights, kappa = kappa2)
     result
 }
+

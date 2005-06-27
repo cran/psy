@@ -22,7 +22,8 @@ Simulations lead sometimes to underestimate the actual number of dimensions (as 
 \value{
 a plot
 }
-\references{Falissard, B. (2001), Mesurer la subjectivité en santé, perspective méthodologique et statistique. Masson, Paris}
+\references{Horn, JL (1965) A Rationale and Test for the Number of Factors in Factor Analysis, Psychometrika, 30, 179-185.
+Cattell, RB (1966) The scree test for the number of factors. Multivariate Behavioral Research, 1, 245-276.}
 \author{Bruno Falissard}
 \examples{
 data(expsy)

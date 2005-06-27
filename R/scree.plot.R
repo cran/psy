@@ -10,8 +10,9 @@ if (type=="V") eigenval <- eigen(cov(mat,use="pairwise.complete.obs"), symmetric
 if (type=="E") eigenval <- namefile
 if (type=="M") eigenval <- eigen(namefile, symmetric=TRUE)$values
 
-
-plot(eigenval, type = "b", pch = 16, bty = "n", main = title, xlab = "", ylab = "")	
+nev <- length(eigenval)
+plot(eigenval, type = "b", pch = 16, bty = "o", main = title, xlab = "Dimension", ylab = "Eigenvalue")
+lines(c(1,nev),c(1,1),lty=2)	
 
 if (is.numeric(simu) && (type=="R"))
 {
@@ -33,3 +34,4 @@ for(i in 1:simu)
 	}
 }
 }
+

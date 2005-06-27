@@ -26,7 +26,7 @@ The focus on the dependent variable leads formally to a partialisation of the co
 It may be interesting to represent graphically the strength of association between the dependent variable and the other variables using p values coming from a model. A vector of pvalue may be specified in this case.
 }
 \value{
-A plot.
+A plot (q plots in fact).
 }
 \references{Falissard B, Focused Principal Components Analysis: looking at a correlation matrix with a particular interest in a given variable. Journal of Computational and Graphical Statistics (1999), 8(4): 906-912.}
 \author{Bruno Falissard, Bill Morphey}
@@ -39,7 +39,33 @@ fpca(sleep,5,c(2:4,7:11))
 ## to the dependent variable with p<0.05.
 ## Green variables are positively correlated to the dependent variable,
 ## yellow variables are negatively correlated.
-## There are three clear clusters of independent variables. 
+## There are three clear clusters of independent variables.
+
+corsleep <- as.data.frame(cor(sleep[,2:11],use="pairwise.complete.obs"))
+fpca(corsleep,4,c(1:3,6:10),input="Cor",sample.size=60) 
+## when missing data are numerous, the representation of a pairwise correlation
+## matrix may be preferred (even if mathematical properties are not so good...)
+
+numer <- c(2:4,7:11)
+l <- length(numer)
+resu <- vector(length=l)
+for(i in 1:l)
+{
+int <- sleep[,numer[i]]
+mod <- lm(sleep$Paradoxical.sleep~int)
+resu[i] <-  summary(mod)[[4]][2,4]*sign(summary(mod)[[4]][2,1])
+}
+fpca(sleep,5,c(2:4,7:11),pvalues=resu)
+## A representation with p values
+## When input="Cor" or pvalues="Yes" partial is turned to "No"
+
+mod <- lm(sleep$Paradoxical.sleep~sleep$Body.weight+sleep$Brain.weight+
+sleep$Slow.wave.sleep+sleep$Maximum.life.span+sleep$Gestation.time+
+sleep$Predation+sleep$Sleep.exposure+sleep$Danger)
+resu <-  summary(mod)[[4]][2:9,4]*sign(summary(mod)[[4]][2:9,1])
+fpca(sleep,5,c(2:4,7:11),pvalues=resu)
+## A representation with p values which come from a multiple linear model
+## (here results are difficult to interpret)
 }
 \keyword{multivariate}
 

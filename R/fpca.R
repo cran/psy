@@ -83,17 +83,14 @@ if (input=="data")
 	yv <- (yv-mean(yv))/(sqrt(var(yv))*sqrt(n-1))
 
 	matcor <- cor(mat)
-}
-
-else
+}else
 
 {
 	namey <- namesvar[y]
-	names[1:p] <- namesvar[x[1:p]]
+	names[1:p] <- namesvar[x[1:p]] ## eq namesvar[x]?
 	matcor <- matrix(nrow=p+1,ncol=1)
-	matcor[1] <- 1
-	matcor[2:y] <- datafile[1:(y-1),y]
-	matcor[(y+1):(p+1)] <- datafile[(y+1):(p+1),y]
+	matcor[1,1] <- 1
+	matcor[2:(p+1),1] <- datafile[x,y]
 	matcorp <- datafile[x,x]
 	decomp <- eigen(matcorp, symmetric=TRUE)
 	eigenval <- decomp$values
@@ -117,8 +114,8 @@ if (pvalues[1]=="No")
 			#***********************************************	
 			scal <- t(t(xv)%*%yv)
 			xp <- xv - (un*yv)*kronecker(one,scal)
-			}
-		else
+			}else
+
 			{
 			xp <- xv	
 			}
@@ -188,8 +185,9 @@ if (pvalues[1]!="No")
 	#***********************************************
 	
 	pnorm <- matrix(nrow=p)
-	
-	for (i in 1:p) if (pvalues[i]==0) pnorm[i] <- 0 else pnorm[i] <- pvalues[i]^(log(pvalues[i])/-50)
+	pvaluesabs <- abs(pvalues)
+	pvaluesabs <- pmax(pvaluesabs,0.001)
+	for (i in 1:p) if (pvaluesabs[i]==0) pnorm[i] <- 0 else pnorm[i] <- pvaluesabs[i]^(log(pvaluesabs[i])/-50)
 	
 	
 	for(i in 1:p)
@@ -225,7 +223,7 @@ names[p+1] <- "."
 names[p+2] <- "."
 
 #****************************************************************************
-#******************************** q plots here q=1***************************
+#******************************** q plots ***********************************
 #****************************************************************************
 
 j <- 1
@@ -279,7 +277,8 @@ if (pvalues[1]!="No")
 {
 #************** circles (p=0.1, p=0.05, ...)****************
 symbols(x=0, y=0, circles=1.5, inches=FALSE, add=TRUE, lwd=2)
-symbols(x=c(0,0,0,0), y=c(0,0,0,0), circles=c(1.35,1.254,1,.557), inches=FALSE, add=TRUE, lwd=1,fg="grey")
+symbols(x=c(0,0,0), y=c(0,0,0), circles=c(1.35,1,.557), inches=FALSE, add=TRUE, lwd=1,fg="grey")
+symbols(x=0, y=0, circles=1.254, inches=FALSE, add=TRUE, lwd=1,fg="red")
 }
 
 #************** dependant variable *****************
@@ -292,7 +291,13 @@ symbols(x=0, y=0, circles=0.03, bg="black", inches=FALSE, add=TRUE, lwd=1)
 if (pvalues[1]=="No")
 {
 #************** circle with p = 5% *****************
-e <- exp(1.96*2/sqrt(n-3))
+if (input=="data")
+{
+	e <- exp(1.96*2/sqrt(n-3))
+}else 
+{
+	if (sample.size<4) e <- 0 else e <- exp(1.96*2/sqrt(sample.size-3))
+}
 if (contraction=="No") rayonsign <- sqrt(2-2*(e-1)/(1+e)) else rayonsign <- (1-(e-1)/(1+e))*1.5
 symbols(x=0, y=0, circles=rayonsign, inches=FALSE, add=TRUE, lwd=1, fg="red")
 
@@ -309,7 +314,7 @@ if (pvalues[1]!="No")
 {
 #**************** legends : p=0, p=0.1, ... ****************
 text(x=c(rep(0.01,5)),y=c(.563,.982,1.239,1.335,1.48),
-     labels=c("p = 0.001","p = 0.01","p = 0.05","p = 0.1","p = 1"),cex=cx)
+     labels=c("p < 0.001","p = 0.01","p = 0.05","p = 0.1","p = 1"),cex=cx)
 }
 
 #****************** plot of positive correlations ***********
@@ -323,8 +328,8 @@ text(x=-0.18,y=-.12,labels=namey, cex=cx+0.25)#focus variable
 text(x=loadx[,j],y=loady[,j],labels=names,cex=cx)#other variables
 
 #****************** name of factors ***********
-annotate <- paste("Factors : 1,", j+1, sep="")
-text(x=1,y=1.3,labels=annotate,cex=cx)
+#annotate <- paste("Factors : 1,", j, sep="")
+#text(x=1,y=1.3,labels=annotate,cex=cx)
 
 #****************************************************************************
 #******************************** end of q plots ****************************
@@ -334,3 +339,4 @@ text(x=1,y=1.3,labels=annotate,cex=cx)
 
 #******************* end **********************
 }
+

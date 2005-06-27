@@ -12,3 +12,4 @@ function(r, type="Cohen", weights="squared")
     }
     return(mean(kappas))
 }
+

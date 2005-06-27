@@ -19,6 +19,7 @@ library(boot)
 ckappa.boot <- function(data,x) {ckappa(data[x,])[[2]]}
 res <- boot(expsy[,c(12,14)],ckappa.boot,1000)
 quantile(res$t,c(0.025,0.975))    # two-sided bootstrapped confidence interval of kappa
+boot.ci(res,type="bca")           # adjusted bootstrap percentile (BCa) confidence interval (better)
 ckappa(expsy[,c(11,13)])          # Cohen's kappa for non binary diagnosis
 }
 \keyword{univar}

@@ -35,6 +35,7 @@ library(boot)
 wkappa.boot <- function(data,x) {wkappa(data[x,])[[3]]}
 res <- boot(expsy[,c(11,13)],wkappa.boot,1000)
 quantile(res$t,c(0.025,0.975))  # two-sided bootstrapped confidence interval of weighted kappa
+boot.ci(res,type="bca")         # adjusted bootstrap percentile (BCa) confidence interval (better)
 }
 \keyword{univar}
 
