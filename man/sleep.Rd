@@ -4,7 +4,7 @@
 \title{ Ecological and Constitutional Data in Mammals }
 \usage{data(sleep)}
 \description{
-Data from which conclusions were drawn in the article 
+Data from which conclusions were drawn in the article
 Mammals: Ecological and Constitutional Correlates,
 by Allison, T. and Cicchetti, D. (1976)
 Science, November 12, vol. 194, pp.732-734
@@ -17,7 +17,7 @@ Science, November 12, vol. 194, pp.732-734
     \item{Brain.weight}{a numeric vector, Brain weight in g}
     \item{Slow.wave.sleep}{a numeric vector, nondreaming sleep (hrs/day)}
     \item{Paradoxical.sleep}{a numeric vector, dreaming sleep (hrs/day)}
-    \item{Total.sleep}{a numeric vector, nondreaming + dreaming (hrs/day)}
+    \item{Total.sleep}{a numeric vector, nondreaming + "dreaming" (hrs/day)}
     \item{Maximum.life.span}{a numeric vector (in years)}
     \item{Gestation.time}{a numeric vector (in days)}
     \item{Predation}{a numeric vector, Predation index (1 min - 5 max)}

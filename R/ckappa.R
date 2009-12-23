@@ -1,4 +1,4 @@
-"ckappa" <-
+ckappa <-
 function(r)
 {
 

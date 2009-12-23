@@ -1,4 +1,4 @@
-"lkappa" <-
+lkappa <-
 function(r, type="Cohen", weights="squared") 
 {
     nrater <- dim(r)[2]

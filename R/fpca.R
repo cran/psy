@@ -1,6 +1,5 @@
-"fpca" <-
-function(datafile, y, x, cx=0.75, namesvar=attributes(datafile)$names, pvalues="No", partial="Yes", input="data", contraction="No", sample.size=1) 
-
+fpca <-
+function(formula=NULL, y=NULL, x=NULL,data, cx=0.75,pvalues="No", partial="Yes", input="data", contraction="No", sample.size=1)
 
 #**********************************************
 #
@@ -29,15 +28,38 @@ function(datafile, y, x, cx=0.75, namesvar=attributes(datafile)$names, pvalues="
 
 {
 
+
+if (is.null(y))
+    {
+    call <- match.call()
+
+        mf <- match.call(expand.dots = FALSE)
+        m <- match(c("formula", "data", "subset"), names(mf), 0L)
+    mf <- mf[c(1L, m)]
+    mf$drop.unused.levels <- TRUE
+    mf[[1L]] <- as.name("model.frame")
+    mf <- eval(mf, parent.frame())
+
+
+    Y <- model.extract(mf, "response")
+    z=dim(mf)[2]
+    x <- mf[,2:z]
+    namey=names(mf)[1]
+    namex=names(mf[,2:z])
+
+    }
+
+ datafile<-data
+ 
 if (pvalues[1]!="No") partial <- "No"
 
 #**********************************************
 # definitions
 #**********************************************
 
-	p <- length(x)
-	if (input=="data") n <- dim(datafile)[1] else n <- sample.size
-	if (input=="data") mat <- matrix(ncol=p+1, nrow=n)
+	p <- ifelse(is.null(y),ncol(x),length(x))
+	if (input=="data") n <-ifelse(is.null(y),nrow(x),dim(datafile)[1]) else n <- sample.size
+	if (input=="data") {if(is.null(y)) mat<-mf else mat<-matrix(ncol=p+1, nrow=n)  }
 	names <- matrix(nrow=p+2)
 	one2 <- matrix(1, nrow=p)
 	load <- matrix(nrow=p, ncol=p)
@@ -50,6 +72,7 @@ if (pvalues[1]!="No") partial <- "No"
 
 if (input=="data")
 {
+
 	#***********************************************
 	# missing values are NOT omitted
 	# input x (independant) and y (dependant variable)
@@ -57,17 +80,21 @@ if (input=="data")
 	# correlations of (x,y)
 	#***********************************************
 	
+if (is.null(formula)){
 	q <- min(q,p-1)
-	mat[,1] <- datafile[,y]
-	namey <- namesvar[y]
+	mat[,1] <- datafile[,c(y)]
+	
+  namey<-ifelse(is.numeric(y),attributes(datafile)$names[y],y)
+
 	for(i in 1:p)	
 		{
-		mat[,i+1] <- datafile[,x[i]]
-		names[i] <- namesvar[x[i]]
+		mat[,i+1] <- datafile[,c(x[i])]
+		names[i] <- ifelse(is.numeric(x[i]),attributes(datafile)$names[x[i]],x[i])
 		}
 
 
 	mat <- na.omit(mat) #following command used to work for data.frames containing NA, didn't work if no NAs
+	}
 	
 	n <- dim(mat)[1]
 	xv <- matrix(ncol=p, nrow=n)
@@ -83,15 +110,33 @@ if (input=="data")
 	yv <- (yv-mean(yv))/(sqrt(var(yv))*sqrt(n-1))
 
 	matcor <- cor(mat)
-}else
+} else
 
 {
-	namey <- namesvar[y]
-	names[1:p] <- namesvar[x[1:p]] ## eq namesvar[x]?
-	matcor <- matrix(nrow=p+1,ncol=1)
+  if (is.null(formula)){
+
+	namey<-ifelse(is.numeric(y),attributes(datafile)$names[y],y)
+
+		for(i in 1:p)
+		{
+	names[i] <- ifelse(is.numeric(x[i]),attributes(datafile)$names[x[i]],x[i])
+	}
+		matcor <- matrix(nrow=p+1,ncol=1)
 	matcor[1,1] <- 1
 	matcor[2:(p+1),1] <- datafile[x,y]
 	matcorp <- datafile[x,x]
+	}
+	
+	else {
+	
+	namex=names(mf[names(mf)!=namey])
+  X<-as.data.frame(t(x))[,c(namex)]
+  matcor<- t(as.data.frame(t(Y))[,c(namey,namex)])
+  matcorp <- X
+  
+	}
+	
+	
 	decomp <- eigen(matcorp, symmetric=TRUE)
 	eigenval <- decomp$values
 	eigenvect <- decomp$vectors
@@ -212,6 +257,7 @@ if (pvalues[1]!="No")
 
 #****************** two more points for a non truncated drawing ********
 
+if (is.null(formula)){
 for(j in 1:p-1)
 {
 loadx[p+1,j] <- 1.5
@@ -221,7 +267,9 @@ loady[p+2,j] <- -1.5
 }
 names[p+1] <- "."
 names[p+2] <- "."
+}
 
+else {names=namex}
 #****************************************************************************
 #******************************** q plots ***********************************
 #****************************************************************************

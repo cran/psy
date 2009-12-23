@@ -25,7 +25,7 @@ A list with :
 }
 \references{Shrout, P.E., Fleiss, J.L. (1979), Intraclass correlation: uses in assessing rater reliability, Psychological Bulletin, 86, 420-428.}
 \author{Bruno Falissard}
-\note{}
+
 \examples{
 data(expsy)
 icc(expsy[,c(12,14,16)])

@@ -1,4 +1,4 @@
-"wkappa" <-
+wkappa <-
 function(r,weights="squared") 
 {
     r <- na.omit(r)

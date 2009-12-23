@@ -1,23 +1,119 @@
-"sphpca" <-
-function(datafile, h=0, v=0, f=0, cx=0.75, nbsphere=2, back=FALSE)
+sphpca <-
+function(datafile, h=0, v=0, f=0, cx=0.75, nbsphere=2, back=FALSE, input="data",method="approx", maxiter=500, output=FALSE)
 {
 
 p <- dim(datafile)[2]
-mat <- as.matrix(na.omit(datafile))
-n <- dim(mat)[1]
-
 one <- matrix(1, nrow=p)
 load <- matrix(nrow=p, ncol=3)
 names <- attributes(datafile)$names
 
-matcorp <- cor(mat)
+if (input=="data")
+    {
+    mat <- as.matrix(na.omit(datafile))
+    matcorp <- cor(mat)
+    }
+if (input!="data")
+    {
+    matcorp <- as.matrix(datafile)
+    }
 decomp <- eigen(matcorp, symmetric=TRUE)
 eigenval <- decomp$values
 eigenvect <- decomp$vectors
 eigenval <- pmax(0.00001*one, eigenval)
 load <- eigenvect*sqrt(kronecker(one,t(eigenval)))
 load <- load[,1:3]
+
+if (method=="exact")
+    {
+    lo <- load
+    dim(lo) <- c(3*p,1)
+    fn1 <- function(tt)
+      {
+      dim(tt) <- c(p,3)
+      stress <- 0
+      for(i in 1:p) for(k in 1:3)
+        {
+        int <- 0
+        for(m in 1:p)
+          {
+          int <- int + tt[m,k]*(tt[m,1]*tt[i,1]+tt[m,2]*tt[i,2]+tt[m,3]*tt[i,3]-matcorp[m,i])/sqrt(tt[m,1]^2+tt[m,2]^2+tt[m,3]^2)
+          }
+          stress <- stress+abs(int)
+        }
+      stress
+      }
+    opt <- optim(lo,fn1,method="BFGS",control=list(maxit=20))
+    convergence <- opt$convergence
+    looptim <- opt$par
+    stress.optim <- fn1(looptim)
+    stress.non.optim <- fn1(lo)
+    load <- looptim
+    dim(load) <- c(p,3)
+    }
+
 for(i in 1:p) load[i,] <- load[i,]/sqrt(sum(load[i,]^2))
+
+if (method=="dist" | method=="rscal")
+    {
+    m.to.o <- function(w)
+      {
+      x <- w[1] ; y <- w[2] ; z <- w[3]
+      theta <- acos(z)
+      if (z==1) phi <- 0
+      if (z!=1 & y>=0) phi <- acos(x/sqrt(1-z^2))
+      if (z!=1 & y<0) phi <- 2*pi-acos(x/sqrt(1-z^2))
+      c(theta,phi)
+      }
+    o.to.m <- function(w)
+      {
+      theta <- w[1]
+      phi <- w[2]
+      z <- cos(theta)
+      x <- sin(theta)*cos(phi)
+      y <- sin(theta)*sin(phi)
+      c(x,y,z)
+      }
+    o <- t(apply(load,1,m.to.o))
+    dim(o) <- c(2*p,1)
+    if(method=="dist") d <- sqrt(2*(1-matcorp))
+    if(method=="rscal") d <- pi/2*(1-matcorp)
+    fn2 <- function(ov)
+      {
+      dim(ov) <- c(p,2)
+      m <- t(apply(ov,1,o.to.m))
+      stress <- 0
+      for(i in 1:p) for(j in 1:p)
+        {if (j<i){
+        delt <- sqrt((m[i,1]-m[j,1])^2+(m[i,2]-m[j,2])^2+(m[i,3]-m[j,3])^2)
+        if (method=="dist") stress <- stress + (2*asin(delt/2)-2*asin(d[i,j]/2))^2
+        if (method=="rscal") stress <- stress + (2*asin(delt/2)-d[i,j])^2
+        }}
+      stress
+      }
+    opt <- optim(o,fn2,method="BFGS",control=list(maxit=maxiter))
+    convergence <- opt$convergence
+    ooptim <- opt$par
+    denom <- 1
+    if (method=="dist") denom <- sum((2*asin(d/2))^2)
+    stress.optim <- fn2(ooptim)/denom
+    stress.non.optim <- fn2(o)/denom
+    dim(ooptim) <- c(p,2)
+    load <- t(apply(ooptim,1,o.to.m))
+    resid.r <- matcorp
+    for(i in 1:p) for(j in 1:p)
+        {
+        delt <- sqrt((load[i,1]-load[j,1])^2+(load[i,2]-load[j,2])^2+(load[i,3]-load[j,3])^2)
+        if (method=="dist") resid.r[i,j] <- -(d[i,j]^2-delt^2)/2
+        if (method=="rscal") resid.r[i,j] <- -(d[i,j]-delt)*2/pi
+        }
+    matcorest <- matcorp - resid.r
+    or.cor <- matcorp
+    dim(or.cor) <- c(p*p,1)
+    est.cor <- matcorest
+    dim(est.cor) <- c(p*p,1)
+    rl <- lm(or.cor~est.cor)
+    resmoy <- sum(abs(resid.r))/(p*(p-1))
+    }
 
 pi <- 3.1415926
 v <- v*pi/180
@@ -29,15 +125,6 @@ rotf <- matrix(c(1,0,0,0,cos(f),sin(f),0,-sin(f),cos(f)),ncol=3)
 rot <- rotv%*%roth%*%rotf
 
 load <- load%*%rot
-
-if (nbsphere==2)
-{
-par(mfrow=c(1,2))
-par(pty="s")
-par(oma=c(0,0,0,0))
-par(mar=c(0,0,0,0))
-plot(cos((1:201)*pi/100),sin((1:201)*pi/100),type="l",axes=FALSE,frame.plot=FALSE,ann=FALSE,xlim=c(-1,1),ylim=c(-1,1))
-
 
 mp1m <- rbind(c(-0.3644843,-0.9310856),
 c(-0.3852566,-0.922069),
@@ -1340,7 +1427,13 @@ c(-0.03651891,0.9865885),
 c(-0.04599805,0.9941766),
 c(-0.05529566,0.9978412))
 
-
+if (nbsphere==2)
+{
+par(mfrow=c(1,2))
+par(pty="s")
+par(oma=c(0,0,0,0))
+par(mar=c(0,0,0,0))
+plot(cos((1:201)*pi/100),sin((1:201)*pi/100),type="l",axes=FALSE,frame.plot=FALSE,ann=FALSE,xlim=c(-1,1),ylim=c(-1,1))
 lines(mp1p[,1],mp1p[,2])
 lines(mp2p[,1],mp2p[,2])
 lines(mp3p[,1],mp3p[,2])
@@ -1438,5 +1531,12 @@ for(i in 1:p) {if (load[i,1]>=0) text(x=load[i,2],y=load[i,3]-0.05,labels=names[
 for(i in 1:p) {if (load[i,1]<=0) symbols(x=load[i,2], y=load[i,3], circles=0.015, inches=FALSE, add=TRUE,fg="blue",bg="white")}
 for(i in 1:p) {if (load[i,1]<=0) text(x=load[i,2],y=load[i,3]-0.05,labels=names[i],cex=cx)}
 }
+
+if (output!=FALSE & method=="exact") list("stress.before.optim"=stress.non.optim,
+"stress.after.otpim"=stress.optim,"convergence"=convergence)
+if (output!=FALSE & method=="rscal" | method=="dist") list("stress.before.optim"=stress.non.optim,
+"stress.after.optim"=stress.optim,"convergence"=convergence,
+"correlations"=round(matcorp,3),"residuals"=round(resid.r,3),"mean.abs.resid"=resmoy)
+
 }
 

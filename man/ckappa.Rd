@@ -23,4 +23,3 @@ boot.ci(res,type="bca")           # adjusted bootstrap percentile (BCa) confiden
 ckappa(expsy[,c(11,13)])          # Cohen's kappa for non binary diagnosis
 }
 \keyword{univar}
-

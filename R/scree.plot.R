@@ -1,4 +1,4 @@
-"scree.plot" <-
+scree.plot <-
 function(namefile, title="Scree Plot", type="R", use="complete.obs", simu="F")
 {
 

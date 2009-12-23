@@ -1,4 +1,4 @@
-"cronbach" <-
+cronbach <-
 function(v1)
 {
 v1 <- na.omit(v1)

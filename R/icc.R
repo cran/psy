@@ -1,4 +1,4 @@
-"icc" <-
+icc <-
 function(data)
 {
 score <- as.matrix(na.omit(data))

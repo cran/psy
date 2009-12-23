@@ -17,7 +17,7 @@ mdspca(datafile, supvar="no", supsubj="no", namesupvar=colnames(supvar,do.NULL=F
   \item{dimy}{rank of the component displayed on the y axis (2 by default)}
   \item{cx}{size of the lettering (0.75 by default, 1 for bigger letters, 0.5 for smaller)}
 }
-}
+
 \value{
 A diagram (two diagrams if supplementary subjects are used)
 }
@@ -26,7 +26,7 @@ A diagram (two diagrams if supplementary subjects are used)
 data(sleep)
 
 mdspca(sleep[,c(2:5,7:11)])
-## three consistent groups of variables, paradoxical sleep (dream)
+## three consistent groups of variables, paradoxical sleep (in other words: dream)
 ## is negatively correlated with danger
 
 mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sleep[,1],namesupsubj="",cx=0.5)
@@ -36,4 +36,3 @@ mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sle
 ## Rabbit and Cow have a high level of danger
 }
 \keyword{multivariate}
-
