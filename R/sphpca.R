@@ -1539,4 +1539,3 @@ if (output!=FALSE & method=="rscal" | method=="dist") list("stress.before.optim"
 "correlations"=round(matcorp,3),"residuals"=round(resid.r,3),"mean.abs.resid"=resmoy)
 
 }
-

@@ -387,4 +387,3 @@ text(x=loadx[,j],y=loady[,j],labels=names,cex=cx)#other variables
 
 #******************* end **********************
 }
-

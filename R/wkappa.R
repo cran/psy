@@ -49,4 +49,3 @@ function(r,weights="squared")
     result <- list(table = tab, weights=weights, kappa = kappa2)
     result
 }
-
