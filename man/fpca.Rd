@@ -5,7 +5,8 @@
 Graphical representation similar to a principal components analysis but adapted to data structured with dependent/independent variables
 }
 \usage{
-fpca(formula=NULL,y=NULL, x=NULL, data, cx=0.75, pvalues="No", partial="Yes", input="data", contraction="No", sample.size=1)
+fpca(formula=NULL,y=NULL, x=NULL, data, cx=0.75, pvalues="No",
+     partial="Yes", input="data", contraction="No", sample.size=1)
 }
 \arguments{
   \item{formula}{"model" formula, of the form y ~ x }
@@ -32,8 +33,10 @@ A plot (q plots in fact).
 \author{Bruno Falissard, Bill Morphey, Adeline Abbe}
 \examples{
 data(sleep)
-fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+Gestation.time+Predation+Sleep.exposure+Danger,data=sleep)
-fpca(y="Paradoxical.sleep",x=c("Body.weight","Brain.weight","Slow.wave.sleep","Maximum.life.span","Gestation.time","Predation","Sleep.exposure","Danger"),data=sleep)
+fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+
+     Gestation.time+Predation+Sleep.exposure+Danger,data=sleep)
+fpca(y="Paradoxical.sleep",x=c("Body.weight","Brain.weight","Slow.wave.sleep",
+     "Maximum.life.span","Gestation.time","Predation","Sleep.exposure","Danger"),data=sleep)
 
 
 ## focused PCA of the duration of paradoxical sleep (dreams, 5th column)
@@ -45,7 +48,8 @@ fpca(y="Paradoxical.sleep",x=c("Body.weight","Brain.weight","Slow.wave.sleep","M
 ## There are three clear clusters of independent variables.
 
 corsleep <- as.data.frame(cor(sleep[,2:11],use="pairwise.complete.obs"))
-fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+Gestation.time+Predation+Sleep.exposure+Danger,
+fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+
+    Gestation.time+Predation+Sleep.exposure+Danger,
 data=corsleep,input="Cor",sample.size=60)
 
 ## when missing data are numerous, the representation of a pairwise correlation
@@ -60,7 +64,8 @@ int <- sleep[,numer[i]]
 mod <- lm(sleep$Paradoxical.sleep~int)
 resu[i] <-  summary(mod)[[4]][2,4]*sign(summary(mod)[[4]][2,1])
 }
-fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+Gestation.time+Predation+Sleep.exposure+Danger,
+fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+
+     Gestation.time+Predation+Sleep.exposure+Danger,
 data=sleep,pvalues=resu)
 ## A representation with p values
 ## When input="Cor" or pvalues="Yes" partial is turned to "No"
@@ -69,7 +74,8 @@ mod <- lm(sleep$Paradoxical.sleep~sleep$Body.weight+sleep$Brain.weight+
 sleep$Slow.wave.sleep+sleep$Maximum.life.span+sleep$Gestation.time+
 sleep$Predation+sleep$Sleep.exposure+sleep$Danger)
 resu <-  summary(mod)[[4]][2:9,4]*sign(summary(mod)[[4]][2:9,1])
-fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+Gestation.time+Predation+Sleep.exposure+Danger,
+fpca(Paradoxical.sleep~Body.weight+Brain.weight+Slow.wave.sleep+Maximum.life.span+
+     Gestation.time+Predation+Sleep.exposure+Danger,
 data=sleep,pvalues=resu)
 ## A representation with p values which come from a multiple linear model
 ## (here results are difficult to interpret)

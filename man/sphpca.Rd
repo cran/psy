@@ -5,7 +5,8 @@
 Graphical representation of a correlation matrix, similar to principal component analysis (PCA) but the mapping is on a sphere. The information is close to a 3d PCA, the picture is however easier to interpret since the variables are in fact on a 2d map.
 }
 \usage{
-sphpca(datafile, h=0, v=0, f=0, cx=0.75, nbsphere=2, back=FALSE, input="data",method="approx", maxiter=500, output=FALSE)
+sphpca(datafile, h=0, v=0, f=0, cx=0.75, nbsphere=2, back=FALSE, input="data",
+       method="approx", maxiter=500, output=FALSE)
 }
 \arguments{
   \item{datafile}{name of datafile}
@@ -47,7 +48,8 @@ sphpca(sleep[,c(2:5,7:11)])
 ## spherical representation of ecological and constitutional correlates in mammals
 
 sphpca(sleep[,c(2:5,7:11)],method="rscal",output=TRUE)
-## idem, but optimizes the representation of correlations between variables with distances between points
+## idem, but optimizes the representation of correlations between variables with distances
+## between points
 
 corsleep <- as.data.frame(cor(sleep[,c(2:5,7:11)],use="pairwise.complete.obs"))
 sphpca(corsleep,input="Cor")

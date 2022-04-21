@@ -13,14 +13,18 @@ Missing value are omitted.}
 \references{Cohen, J. (1960), A coefficient of agreement for nominal scales, Educational and Psychological measurements, 20, 37-46.}
 \author{Bruno Falissard}
 \examples{data(expsy)
-ckappa(expsy[,c(12,14)])          # Cohen's kappa for binary diagnosis
+## Cohen's kappa for binary diagnosis
+ckappa(expsy[,c(12,14)])
 
-#to obtain a 95%confidence interval:
+##to obtain a 95%confidence interval:
 #library(boot)
 #ckappa.boot <- function(data,x) {ckappa(data[x,])[[2]]}
 #res <- boot(expsy[,c(12,14)],ckappa.boot,1000)
-#quantile(res$t,c(0.025,0.975))    # two-sided bootstrapped confidence interval of kappa
-#boot.ci(res,type="bca")           # adjusted bootstrap percentile (BCa) confidence interval (better)
-#ckappa(expsy[,c(11,13)])          # Cohen's kappa for non binary diagnosis
+## two-sided bootstrapped confidence interval of kappa
+#quantile(res$t,c(0.025,0.975))
+## adjusted bootstrap percentile (BCa) confidence interval (better)
+#boot.ci(res,type="bca")
+##Cohen's kappa for non binary diagnosis
+#ckappa(expsy[,c(11,13)])
 }
 \keyword{univar}

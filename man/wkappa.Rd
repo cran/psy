@@ -12,10 +12,10 @@ wkappa(r,weights="squared")
   \item{weights}{weights="squared" to obtain squared weights. If not, absolute weights are computed (see details)}
 }
 \details{
-The diagnoses are ordered as follow: numbers < letters, letters and numbers ordered naturally.
+Diagnoses have to be coded by numbers (ordered naturally).
 For weigths="squared", weights are related to squared differences between rows and columns indices (in this situation wkappa is close to an icc).
 For weights!="squared", weights are related to absolute values of differences between rows and columns indices.
-The function deals with the case where the two raters have not exactly the same scope of rating (some software associate an error with this situation).
+The function is supposed to deal with the case where the two raters have not exactly the same scope of rating.
 Missing value are omitted.
 }
 \value{

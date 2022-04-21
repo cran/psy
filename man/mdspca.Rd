@@ -5,7 +5,8 @@
 Similar to many routines, the interest is in the possible representation of both variables and subjects (and by the way categorical variables) with active and supplementary points. Missing data are omitted.
 }
 \usage{
-mdspca(datafile, supvar="no", supsubj="no", namesupvar=colnames(supvar,do.NULL=FALSE), namesupsubj=colnames(supsubj, do.NULL=FALSE), dimx=1, dimy=2, cx=0.75)
+mdspca(datafile, supvar="no", supsubj="no", namesupvar=colnames(supvar,do.NULL=FALSE),
+       namesupsubj=colnames(supsubj, do.NULL=FALSE), dimx=1, dimy=2, cx=0.75)
 }
 \arguments{
   \item{datafile}{name of datafile}
@@ -29,7 +30,8 @@ mdspca(sleep[,c(2:5,7:11)])
 ## three consistent groups of variables, paradoxical sleep (in other words: dream)
 ## is negatively correlated with danger
 
-mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sleep[,1],namesupsubj="",cx=0.5)
+mdspca(sleep[,c(2:5,7:11)],supvar=sleep[,6],namesupvar="Total.sleep",supsubj=sleep[,1],
+       namesupsubj="",cx=0.5)
 ## Total.sleep is here a supplementary variable since it is deduced
 ## from Paradoxical.sleep and Slow.wave.sleep
 ## The variable Species is displayed in the subject plane,

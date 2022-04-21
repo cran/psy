@@ -17,10 +17,10 @@
   \item{color}{boxplot are in colour: FALSE = colourless just in grey and white (by default), TRUE = with colours}
   \item{itemTot}{if TRUE, for subscale i (i=1,...,n), boxplot of Pearson's correlations between total score of subscale i and the items of subscale j (j=1,...n).
   If j=i, the item is omited in the computation of the total score. If FALSE, for subscale i (i=1,...,n), boxplot of Pearson's correlations between the items of
-  subscale i and the items of subscale j (j=1,...n)} 
+  subscale i and the items of subscale j (j=1,...n)}
   \item{graphItem}{if TRUE represents graphically each correlation}
   \item{stripChart}{if TRUE, dot charts are preferred to boxplots. Used with small number of items}
-  \item{namesDim}{Labels foreach boxplots}  
+  \item{namesDim}{Labels foreach boxplots}
 }
 
 \value{
@@ -39,7 +39,8 @@ par(mfrow=c(1,5))
 mtmm(ehd,list(c("e15","e18","e19","e20"),c("e4","e5","e6","e14","e17"),c("e11","e13","e16")
 ,c("e1","e10","e12"),c("e2","e3","e7","e8","e9")))
 
-# Boxplots of the distributions of the Pearson's correlations between total score of subscale i and the items of subscale j
+# Boxplots of the distributions of the Pearson's correlations between total score of
+# subscale i and the items of subscale j
 par(mfrow=c(1,5))
 mtmm(ehd,list(c("e15","e18","e19","e20"),c("e4","e5","e6","e14","e17"),c("e11","e13","e16")
 ,c("e1","e10","e12"),c("e2","e3","e7","e8","e9")))
